@@ -35,7 +35,7 @@ jobs:
 
       - name: Feature engineering
         run: |
-          python3 clustering/src/featureEngineering.py
+          python3 featureEngineering.py
           echo "Feature engineering completed successfully"
 
       - name: tSNE
