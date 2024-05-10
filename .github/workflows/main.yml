@@ -1,0 +1,60 @@
+name: Run Python Scripts Daily - W
+
+on:
+  schedule:
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-scripts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  
+
+      - name: Navigate to scripts directory
+        run: |
+          cd clustering/src
+          ls  
+
+      - name: Preparation for dependencies
+        run: |
+          pip install --upgrade pip
+          pip install setuptools==65.7.0
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          echo "Dependencies installed successfully"
+
+      - name: Feature engineering
+        run: |
+          python3 clustering/src/featureEngineering.py
+          echo "Feature engineering completed successfully"
+
+      - name: tSNE
+        run: |
+          python3 tsne.py
+          echo "tSNE completed successfully"
+
+      - name: Clustering
+        run: |
+          python3 clustering.py
+          echo "Clustering completed successfully"
+
+      - name: Visualization
+        run: |
+          python3 vis.py
+          echo "Visualization completed successfully"
+
+      - name: Deploy HTML file to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: clustering/src/1804_visualization.html
