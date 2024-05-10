@@ -35,7 +35,7 @@ jobs:
 
       - name: Feature engineering
         run: |
-          python3 dataProcessing.py
+          python3 clustering/src/dataProcessing.py
           echo "Feature engineering completed successfully"
           
       - name: tSNE
