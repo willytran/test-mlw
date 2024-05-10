@@ -44,17 +44,17 @@ jobs:
           
       - name: tSNE
         run: |
-          python3 tsne.py
+          python3 clustering/src/tsne.py
           echo "tSNE completed successfully"
 
       - name: Clustering
         run: |
-          python3 clustering.py
+          python3 clustering/src/clustering.py
           echo "Clustering completed successfully"
 
       - name: Visualization
         run: |
-          python3 vis.py
+          python3 clustering/src/vis.py
           echo "Visualization completed successfully"
 
       - name: Deploy HTML file to GitHub Pages
