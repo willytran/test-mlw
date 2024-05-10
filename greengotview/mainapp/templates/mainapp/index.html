@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'mainapp/index.css' %}" rel="stylesheet">
+    <title>Green-Got View</title>
+</head>
+<header id="top">
+    <a href="{% url 'mainapp:index' %}">
+        <img src="../../static/mainapp/logo.png">
+    </a>
+    <h1>
+        Green-Got View
+    </h1>
+</header>
+<nav>
+    <ul>
+        <li><a href="{% url 'mainapp:index' %}">Home</a></li>
+        <li><a href="{% url 'mainapp:vis' %}">Clustering visualization</a></li>
+        <li><a href="{% url 'mainapp:highlight' %}">Highlighted accounts</a></li>
+        <li><a href="{% url 'mainapp:stats' %}">Statistics</a></li>
+    </ul>
+</nav>
+<body>
+    {% if request.path == '/' %}
+    <div class="explaining">
+        <h1>Clustering explained</h1>
+        The main idea : find accounts that are close (i.e. with a similar utilisation) to fraudulous ones to prevent fraud.<br>
+        4 steps to do so : Raw Data, Feature Engineering, Dimension Reduction, Clustering (and visualization)
+        <h3>Raw Data</h3>
+        Through Metabase and with SQL, we retrieve raw data for each user in our database. Current data retrieved :
+        <ul>
+            <li>AccountCreatedAt</li>
+            <li>Nb SEPAOUT</li>
+            <li>Nb WITHDRAWAL</li>
+            <li>Nb transactions</li>
+            <li>Nb CREDIT</li>
+            <li>Nb DEBIT</li>
+            <li>Moyenne CREDIT</li>
+            <li>Moyenne DEBIT</li>
+            <li>Volume CREDIT</li>
+            <li>Volume DEBIT</li>
+            <li>Ecart-type Volume transactions</li>
+            <li>Nb hits</li>
+        </ul>
+        <h3>Feature Engineering</h3>
+        Based on the raw data, we build our features (using pandas) :
+        <ul>
+            <li>featuresData['nb_withdrawal_ratio'] = rawData['Nb WITHDRAWAL'] / rawData['Nb transactions']</li>
+            <li>featuresData['nb_sepaout_ratio'] = rawData['Nb SEPAOUT'] / rawData['Nb transactions']</li>
+            <li>featuresData['avg_credit_volume'] = rawData['Volume CREDIT']/100 / rawData['Nb CREDIT']</li>
+            <li>featuresData['avg_debit_volume'] = rawData['Volume DEBIT']/100 / rawData['Nb DEBIT']</li>
+            <li>featuresData['credit_transactions_ratio'] = rawData['Nb CREDIT'] / rawData['Nb transactions']</li>
+            <li>featuresData['debit_transactions_ratio'] = rawData['Nb DEBIT'] / rawData['Nb transactions']</li>
+            <li>featuresData['volume_transaction_std'] = rawData['Ecart-type Volume transactions']/100</li>
+            <li>featuresData['hits_ratio'] = rawData['Nb hits'] / rawData['Nb transactions']</li>
+            <li>
+                rawData['AccountCreatedAt'] = pd.to_datetime(rawData['AccountCreatedAt'])<br>
+                num_days = (datetime(2023, 3, 2) - rawData['AccountCreatedAt'].dt.tz_convert(None)).dt.days<br>
+                featuresData['transactions_per_day'] = rawData['Nb transactions'] / num_days
+            </li>
+        </ul>
+        <h3>Dimension Reduction</h3>
+        Since we now have 9 features for each account, we need to reduce the dimension to maximum 3 to be able to visualize our dataset.<br>
+        The current algorithm used is tSNE, with a perplexity of 75.<br>
+        <br><a href="https://fr.wikipedia.org/wiki/Algorithme_t-SNE">More here about tSNE</a>
+        <h3>Clustering and visualization</h3>
+        We use the Calinski-Harabasz metric to find the optimal number of clusters, and then we use the k-means algorithm to define our clusters.<br>
+        At the moment, the optimal number of cluster is 11, based on early March data.
+    </div>
+    {% endif %}
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

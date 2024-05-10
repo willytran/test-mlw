@@ -1,0 +1,15 @@
+{% extends 'mainapp/index.html' %}
+
+{% block content %}
+    <div class="explaining">
+        <h1>Count of suspicious accounts based on RFI/SAR compliance file :</h1>
+        <ul>
+            {% for key, value in context.items %}
+                {% if key != "sum" %}
+                    <li>Cluster {{ key }} : {{ value }} - ~{% widthratio value context.sum 100 %}%</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        based on {{ context.sum }} accounts.
+    </div>
+{% endblock %}
