@@ -22,7 +22,9 @@ jobs:
         run: |
           cd clustering/src
           ls  
-
+          python3 featureEngineering.py
+          echo "Feature engineering completed successfully"
+          
       - name: Preparation for dependencies
         run: |
           pip install --upgrade pip
@@ -32,11 +34,6 @@ jobs:
         run: |
           pip install -r requirements.txt
           echo "Dependencies installed successfully"
-
-      - name: Feature engineering
-        run: |
-          python3 featureEngineering.py
-          echo "Feature engineering completed successfully"
 
       - name: tSNE
         run: |
