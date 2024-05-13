@@ -23,7 +23,7 @@ def visualize_clusters(customers_clusters):
 
     fig.update_layout(scene=dict(xaxis_title='Feature 1', yaxis_title='Feature 2', zaxis_title='Feature 3'))
     fig.show()
-    fig.write_html("clustering/ClusteringVisualisation.html")
+    fig.write_html("github/ClusteringVisualisation.html")
 
 if __name__ == '__main__':
     featuresData = process_data()
