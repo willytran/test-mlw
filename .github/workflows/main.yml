@@ -37,20 +37,20 @@ jobs:
         run: |
           pip list 
 
-      - name: Feature engineering
-        run: |
-          python3 clustering/src/dataProcessing.py
-          echo "Feature engineering completed successfully"
+      # - name: Feature engineering
+      #   run: |
+      #     python3 clustering/src/dataProcessing.py
+      #     echo "Feature engineering completed successfully"
           
-      - name: tSNE
-        run: |
-          python3 clustering/src/tsne.py
-          echo "tSNE completed successfully"
+      # - name: tSNE
+      #   run: |
+      #     python3 clustering/src/tsne.py
+      #     echo "tSNE completed successfully"
 
-      - name: Clustering
-        run: |
-          python3 clustering/src/clustering.py
-          echo "Clustering completed successfully"
+      # - name: Clustering
+      #   run: |
+      #     python3 clustering/src/clustering.py
+      #     echo "Clustering completed successfully"
 
       - name: Visualization
         run: |
@@ -61,4 +61,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ClusteringVisualisation.html
+          publish_dir: 'clustering'
