@@ -2,6 +2,8 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from tsne import compute_tsne  
 from dataProcessing import process_data  
+import logging
+logging.basicConfig(level=logging.INFO)
 
 def compute_kmeans(tsne_data):
 
@@ -19,11 +21,17 @@ def compute_kmeans(tsne_data):
 
     return customers_clusters
 
+def main():
+    try:
+        featuresData = process_data()
+        if not featuresData.empty:
+            tsne_data = compute_tsne(featuresData)
+            customers_clusters = compute_kmeans(tsne_data)
+            logging.info(customers_clusters.head(10))
+        else:
+            logging.warning("No data found")
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+
 if __name__ == '__main__':
-    featuresData = process_data()
-    if not featuresData.empty:
-        tsne_data = compute_tsne(featuresData)
-        customers_clusters = compute_kmeans(tsne_data)
-        print(customers_clusters.head(10))
-    else:
-        print("No data found")
+    main()
