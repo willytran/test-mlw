@@ -33,10 +33,10 @@ def main():
             tsne_data = compute_tsne(featuresData)
 
             #Add date to filename
+            current_date = datetime.now().strftime('%d_%m_%Y')  # Day_Month_Year format
             clustering_results = compute_kmeans(tsne_data)
             filename = f'clustering_results_{current_date}.csv'
 
-            current_date = datetime.now().strftime('%d_%m_%Y')  # Day_Month_Year format
 
             # Save the clustering results to a CSV file
             save_to_csv(clustering_results, 'clustering/csv', 'clustering_results.csv')
