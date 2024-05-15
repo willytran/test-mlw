@@ -26,7 +26,7 @@ def visualize_clusters(customers_clusters):
 
     fig.update_layout(scene=dict(xaxis_title='Feature 1', yaxis_title='Feature 2', zaxis_title='Feature 3'))
     fig.show()
-    fig.write_html("clustering/github/ClusteringVisualisation.html")
+    fig.write_html("clustering/template/ClusteringVisualisation.html")
 
 def main():
     try:
