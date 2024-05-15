@@ -39,7 +39,7 @@ def main():
 
 
             # Save the clustering results to a CSV file
-            save_to_csv(clustering_results, 'clustering/csv', 'clustering_results.csv')
+            save_to_csv(clustering_results, 'clustering/csv',filename)
         else:
             logging.warning("No data found to process.")
     except Exception as e:
