@@ -2,7 +2,7 @@ name: Daily csv saving
 
 on:
   schedule:
-    - cron: '0 14 * * *'
+    - cron: '0 23 * * *'
   workflow_dispatch:
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'  
+          python-version: '3.10'
           
       - name: Preparation for dependencies
         run: |
@@ -32,3 +32,11 @@ jobs:
         run: |
           python3 clustering/src/save_csv.py
           echo "Clustering completed successfully"
+
+      - name: Commit and push if changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit -m "Automated CSV file commit" || echo "No changes to commit"
+          git push
